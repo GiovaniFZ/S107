@@ -17,7 +17,7 @@ public class BuscaAtendimento {
         JsonObject jsonObject = JsonParser.parseString(atendimentoStr).getAsJsonObject();
         return new Atendimento(jsonObject.get("nomeDoProfessor").getAsString(),
                 jsonObject.get("horarioDeAtendimento").getAsString(),
-                jsonObject.get("periodo").getAsInt(),
+                jsonObject.get("periodo").getAsString(),
                 jsonObject.get("sala").getAsInt(),
                 jsonObject.get("predio").getAsInt()
         );
