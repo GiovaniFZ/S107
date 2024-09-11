@@ -58,14 +58,14 @@ public class TestAtendimento {
     public void verificarSalaDeAtendimentoNoPredioQuatro() {
         Mockito.when(atendimentoService.getAtendimento(5)).thenReturn(HorariosConst.PREDIO4);
         Atendimento at5 = buscaAtendimento.retornaAtendimento(5);
-        assertEquals("18", at5.getSala());
+        assertEquals(18, at5.getSala());
     }
 
     @Test
     public void verificarNumeroPredio() {
         Mockito.when(atendimentoService.getAtendimento(22)).thenReturn(HorariosConst.PREDIO6);
         Atendimento at6 = buscaAtendimento.retornaAtendimento(22);
-        assertEquals("6", at6.getPredio());
+        assertEquals(6, at6.getPredio());
     }
 
     @Test
