@@ -4,11 +4,11 @@ public class Atendimento {
     public String nomeProfessor;
     public String horarioAtendimento;
     public String periodo;
-    public int sala;
-    public int predio;
+    public String sala;
+    public String predio;
     public String info;
 
-    public Atendimento(String nomeProfessor, String horarioAtendimento, String periodo, int sala, int predio, String info) {
+    public Atendimento(String nomeProfessor, String horarioAtendimento, String periodo, String sala, String predio, String info) {
         this.nomeProfessor = nomeProfessor;
         this.horarioAtendimento = horarioAtendimento;
         this.periodo = periodo;
@@ -17,11 +17,11 @@ public class Atendimento {
         this.info = info;
     }
 
-    public int getPredio() {
+    public String getPredio() {
         return predio;
     }
 
-    public int getSala() {
+    public String getSala() {
         return sala;
     }
 
