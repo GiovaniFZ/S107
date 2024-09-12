@@ -74,5 +74,42 @@ public class TestAtendimento {
         Atendimento at7 = buscaAtendimento.retornaAtendimento(30);
         assertEquals("Número deve ser menor que 25!", at7.getInfo());
     }
+        @Test(expected = NullPointerException.class)
+    public void verificarAtendimentoInexistente() {
+        Mockito.when(atendimentoService.getAtendimento(100)).thenReturn(null);
+        Atendimento at7 = buscaAtendimento.retornaAtendimento(100);
+        at7.getNomeProfessor();  // Deve lançar NullPointerException
+    }
 
+    @Test(expected = java.lang.Exception.class)
+    public void verificarNomeIncorreto() throws Exception {
+        Mockito.when(atendimentoService.getAtendimento(2)).thenReturn(HorariosConst.PREDIO1);
+        Atendimento at8 = buscaAtendimento.retornaAtendimento(2);
+
+        // Verifica se o nome do professor é o esperado
+        if (!"Carlos Lima".equals(at8.getNomeProfessor())){
+            // Lança uma exceção se o nome estiver incorreto
+            throw new Exception();
+        }
+    }
+
+    @Test(expected = java.lang.Exception.class)
+    public void verificarHorarioIncorreto() throws Exception  {
+        Mockito.when(atendimentoService.getAtendimento(1)).thenReturn(HorariosConst.PREDIO1);
+        Atendimento at9 = buscaAtendimento.retornaAtendimento(1);
+
+        if (!"Terça:17:30".equals(at9.getHorarioAtendimento())) {
+            // Lança uma exceção se o horário estiver incorreto
+            throw new Exception();
+        }
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void verificarJsonInvalido() {
+        // Configura o mock para retornar um JSON malformado
+        Mockito.when(atendimentoService.getAtendimento(1)).thenReturn("{\"nomeDoProfessor\": \"Chris Lima\", \"horarioDeAtendimento\": \"Segunda:17:30\"");
+
+        // Chama o método que deve lançar IllegalArgumentException devido ao JSON inválido
+        Atendimento at14 = buscaAtendimento.retornaAtendimento(1);
+    }
 }
