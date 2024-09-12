@@ -12,15 +12,19 @@ public class BuscaAtendimento {
     }
 
     public Atendimento retornaAtendimento(int numeroSala) {
-        // Transformando o String em JSON
-        String atendimentoStr = atendimentoService.getAtendimento(numeroSala);
-        JsonObject jsonObject = JsonParser.parseString(atendimentoStr).getAsJsonObject();
-        return new Atendimento(jsonObject.get("nomeDoProfessor").getAsString(),
-                jsonObject.get("horarioDeAtendimento").getAsString(),
-                jsonObject.get("periodo").getAsString(),
-                jsonObject.get("sala").getAsInt(),
-                jsonObject.get("predio").getAsInt(),
-                jsonObject.get("info").getAsString()
-        );
+        try {
+            // Transformando o String em JSON
+            String atendimentoStr = atendimentoService.getAtendimento(numeroSala);
+            JsonObject jsonObject = JsonParser.parseString(atendimentoStr).getAsJsonObject();
+            return new Atendimento(jsonObject.get("nomeDoProfessor").getAsString(),
+                    jsonObject.get("horarioDeAtendimento").getAsString(),
+                    jsonObject.get("periodo").getAsString(),
+                    jsonObject.get("sala").getAsInt(),
+                    jsonObject.get("predio").getAsInt(),
+                    jsonObject.get("info").getAsString()
+            );
+        }catch (com.google.gson.JsonSyntaxException e) {
+            throw new IllegalArgumentException();
+        }
     }
 }
