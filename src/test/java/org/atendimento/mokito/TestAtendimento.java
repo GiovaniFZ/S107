@@ -26,6 +26,8 @@ public class TestAtendimento {
         buscaAtendimento = new BuscaAtendimento(atendimentoService);
     }
 
+    // Testes de sucesso
+
     @Test
     public void VerificarNomeDoProfessorNoPredioUm() {
         Mockito.when(atendimentoService.getAtendimento(2)).thenReturn(HorariosConst.PREDIO1);
@@ -48,6 +50,13 @@ public class TestAtendimento {
     }
 
     @Test
+    public void verificarHorarioDeAtendimentoNoPredioTres(){
+        Mockito.when(atendimentoService.getAtendimento(13)).thenReturn(HorariosConst.PREDIO3);
+        Atendimento at = buscaAtendimento.retornaAtendimento(13);
+        assertEquals("Segunda:13:30", at.getHorarioAtendimento());
+    }
+
+    @Test
     public void verificarPeriodoDeAtendimentoNoPredioQuatro() {
         Mockito.when(atendimentoService.getAtendimento(5)).thenReturn(HorariosConst.PREDIO4);
         Atendimento at4 = buscaAtendimento.retornaAtendimento(5);
@@ -55,10 +64,24 @@ public class TestAtendimento {
     }
 
     @Test
+    public void verificarPeriodoDeAtendimentoNoPredioSeis() {
+        Mockito.when(atendimentoService.getAtendimento(23)).thenReturn(HorariosConst.PREDIO6);
+        Atendimento at = buscaAtendimento.retornaAtendimento(23);
+        assertEquals("noturno", at.getPeriodo());
+    }
+
+    @Test
     public void verificarSalaDeAtendimentoNoPredioQuatro() {
-        Mockito.when(atendimentoService.getAtendimento(5)).thenReturn(HorariosConst.PREDIO4);
-        Atendimento at5 = buscaAtendimento.retornaAtendimento(5);
+        Mockito.when(atendimentoService.getAtendimento(17)).thenReturn(HorariosConst.PREDIO4);
+        Atendimento at5 = buscaAtendimento.retornaAtendimento(17);
         assertEquals(18, at5.getSala());
+    }
+
+    @Test
+    public void verificarSalaDeAtendimentoNoPredioUm() {
+        Mockito.when(atendimentoService.getAtendimento(5)).thenReturn(HorariosConst.PREDIO1);
+        Atendimento at = buscaAtendimento.retornaAtendimento(5);
+        assertEquals(1, at.getSala());
     }
 
     @Test
@@ -69,16 +92,25 @@ public class TestAtendimento {
     }
 
     @Test
+    public void verificarMensagemDeSucesso(){
+        Mockito.when(atendimentoService.getAtendimento(22)).thenReturn(HorariosConst.PREDIO6);
+        Atendimento at6 = buscaAtendimento.retornaAtendimento(22);
+        assertEquals("success", at6.getInfo());
+    }
+
+    // Testes falha
+    @Test
     public void verificarNumeroGrande() {
         Mockito.when(atendimentoService.getAtendimento(30)).thenReturn(HorariosConst.NUMERO_MAIOR);
         Atendimento at7 = buscaAtendimento.retornaAtendimento(30);
         assertEquals("Número deve ser menor que 25!", at7.getInfo());
     }
-        @Test(expected = NullPointerException.class)
-    public void verificarAtendimentoInexistente() {
-        Mockito.when(atendimentoService.getAtendimento(100)).thenReturn(null);
-        Atendimento at7 = buscaAtendimento.retornaAtendimento(100);
-        at7.getNomeProfessor();  // Deve lançar NullPointerException
+
+    @Test
+    public void verificarNumeroPequeno(){
+        Mockito.when(atendimentoService.getAtendimento(-3)).thenReturn(HorariosConst.NUMERO_MENOR);
+        Atendimento at = buscaAtendimento.retornaAtendimento(-3);
+        assertEquals("Número deve ser maior que 1!", at.getInfo());
     }
 
     @Test(expected = java.lang.Exception.class)
