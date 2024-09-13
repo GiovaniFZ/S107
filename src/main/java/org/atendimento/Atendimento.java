@@ -5,10 +5,10 @@ public class Atendimento {
     public String horarioAtendimento;
     public String periodo;
     public String sala;
-    public String predio;
+    public int predio;
     public String info;
 
-    public Atendimento(String nomeProfessor, String horarioAtendimento, String periodo, String sala, String predio, String info) {
+    public Atendimento(String nomeProfessor, String horarioAtendimento, String periodo, String sala, int predio, String info) {
         this.nomeProfessor = nomeProfessor;
         this.horarioAtendimento = horarioAtendimento;
         this.periodo = periodo;
@@ -17,7 +17,7 @@ public class Atendimento {
         this.info = info;
     }
 
-    public String getPredio() {
+    public int getPredio() {
         return predio;
     }
 

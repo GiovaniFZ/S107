@@ -28,7 +28,7 @@ public class BuscaAtendimento {
                     jsonObject.get("horarioDeAtendimento").getAsString(),
                     jsonObject.get("periodo").getAsString(),
                     jsonObject.get("sala").getAsString(),
-                    jsonObject.get("predio").getAsString(),
+                    jsonObject.get("predio").getAsInt(),
                     jsonObject.get("info").getAsString()
             );
         

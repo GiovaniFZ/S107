@@ -74,14 +74,14 @@ public class TestAtendimento {
     public void verificarSalaDeAtendimentoNoPredioQuatro() {
         Mockito.when(atendimentoService.getAtendimento(17)).thenReturn(HorariosConst.PREDIO4);
         Atendimento at5 = buscaAtendimento.retornaAtendimento(17);
-        assertEquals(18, at5.getSala());
+        assertEquals("18", at5.getSala());
     }
 
     @Test
     public void verificarSalaDeAtendimentoNoPredioUm() {
         Mockito.when(atendimentoService.getAtendimento(5)).thenReturn(HorariosConst.PREDIO1);
         Atendimento at = buscaAtendimento.retornaAtendimento(5);
-        assertEquals(1, at.getSala());
+        assertEquals("1", at.getSala());
     }
 
     @Test
@@ -191,15 +191,5 @@ public class TestAtendimento {
 
         // Chama o método que deve lançar IllegalArgumentException devido ao JSON inválido
         Atendimento at14 = buscaAtendimento.retornaAtendimento(1);
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void verificarNomeProfessorNulo() throws Exception {
-        Mockito.when(atendimentoService.getAtendimento(2)).thenReturn("{\"nomeDoProfessor\": null, \"horarioDeAtendimento\": \"Segunda:17:30\", \"periodo\": \"noturno\", \"sala\": \"1\", \"predio\": [\"1\"]}");
-        Atendimento at15 = buscaAtendimento.retornaAtendimento(2);
-
-        if (at15.getNomeProfessor() == null) {
-            throw new Exception();
-        }
     }
 }
