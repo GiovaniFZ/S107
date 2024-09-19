@@ -30,3 +30,4 @@ jobs:
     - name: Tests with Maven
       run: |
         mvn clean install
+        mvn clean test
