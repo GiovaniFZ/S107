@@ -29,4 +29,4 @@ jobs:
         cache: maven
     - name: Tests with Maven
       run: |
-        mvn clean test site
+        mvn clean install
