@@ -1,11 +1,3 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
-
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
 name: Java CI with Maven
 
 on:
@@ -64,6 +56,9 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y sendmail
+
+      - name: Check Sendmail Status
+        run: sendmail -bv your-email@example.com  # Verifica se o sendmail está funcionando corretamente
 
       - name: Send Email Notification
         run: |
