@@ -16,33 +16,47 @@ on:
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 22
-      uses: actions/setup-java@v4
-      with:
-        java-version: '22'
-        distribution: 'temurin'
-        cache: maven
-    - name: Tests with Maven
-      run: |
-        mvn clean install
-        mvn clean test
+      - uses: actions/checkout@v4
+      - name: Set up JDK 22
+        uses: actions/setup-java@v4
+        with:
+          java-version: '22'
+          distribution: 'temurin'
+          cache: maven
+      - name: Tests with Maven
+        run: |
+          mvn clean install
+          mvn clean test
 
-    - name: Upload artefatos
-      uses: action/upload-artifact@v3
-      with:
-        name: relatorio-testes
-        path: ./target/site/
+      - name: Upload artefatos
+        uses: actions/upload-artifact@v3
+        with:
+          name: relatorio-testes
+          path: ./target/site/
 
   notification:
-    needs: build
+    needs: test
 
     runs-on: ubuntu-latest
+
     steps:
-      - name: Executa scripts externos (versionados)
+      - name: Check out the repository
         uses: actions/checkout@v4
-      - run: sh scripts/send_email.py
+
+      - name: Get Commit Author Email
+        id: get_email
+        run: echo "COMMIT_AUTHOR_EMAIL=$(git log -1 --pretty=format:'%ae')" >> $GITHUB_ENV
+
+      - name: Install Sendmail
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y sendmail
+
+      - name: Send Email Notification
+        run: |
+          python scripts/send_email.py
+        env:
+          COMMIT_AUTHOR_EMAIL: ${{ env.COMMIT_AUTHOR_EMAIL }}
