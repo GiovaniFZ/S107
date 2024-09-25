@@ -10,9 +10,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main", "test" ]
+    branches: [ "main", "test" ]  # Adicionando a branch test
   pull_request:
-    branches: [ "main", "test" ]
+    branches: [ "main", "test" ]   # Também adicionando para pull requests
 
 jobs:
   test:
@@ -32,7 +32,7 @@ jobs:
           mvn clean test
 
       - name: Generate Site with Maven
-        run: mvn site
+        run: mvn site  # Gera o site
 
       - name: Upload Artefatos
         uses: actions/upload-artifact@v3
@@ -42,7 +42,7 @@ jobs:
 
   notification:
     needs: test
-    if: failure()  # Esta etapa só será executada se o job "test" falhar
+
     runs-on: ubuntu-latest
 
     steps:
@@ -57,34 +57,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y sendmail
-          sendmail -v  # Verifica a instalação do sendmail
 
-      - name: Send Email Notification on Failure
-        run: |
-          python scripts/send_email.py
-        env:
-          COMMIT_AUTHOR_EMAIL: ${{ env.COMMIT_AUTHOR_EMAIL }}
-
-  success_notification:
-    needs: test
-    if: success()  # Esta etapa só será executada se o job "test" for bem-sucedido
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out the repository
-        uses: actions/checkout@v4
-
-      - name: Get Commit Author Email
-        id: get_email
-        run: echo "COMMIT_AUTHOR_EMAIL=$(git log -1 --pretty=format:'%ae')" >> $GITHUB_ENV
-
-      - name: Install Sendmail
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y sendmail
-          sendmail -v  # Verifica a instalação do sendmail
-
-      - name: Send Success Notification
+      - name: Send Email Notification
         run: |
           python scripts/send_email.py
         env:
