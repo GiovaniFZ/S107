@@ -5,7 +5,7 @@ def send_email(to_email):
     subject = "Pipeline Executado"
     body = "Pipeline executado com sucesso!"
 
-    # Compor a mensagem
+    # mensagem
     message = f"Subject: {subject}\n\n{body}"
 
     # Usar sendmail para enviar o e-mail
