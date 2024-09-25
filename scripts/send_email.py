@@ -1,26 +1,30 @@
 import os
-import subprocess
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 def send_email(to_email):
     subject = "Pipeline Executado"
     body = "Pipeline executado com sucesso!"
+    from_email = os.getenv('FROM_EMAIL')  # Agora é uma variável de ambiente
+    password = os.getenv('EMAIL_PASSWORD')  # Senha do email como variável de ambiente
 
-    # mensagem
-    message = f"Subject: {subject}\n\n{body}"
+    msg = MIMEMultipart()
+    msg['From'] = from_email
+    msg['To'] = to_email
+    msg['Subject'] = subject
+    msg.attach(MIMEText(body, 'plain'))
 
-    # Usar sendmail para enviar o e-mail
-    process = subprocess.Popen(
-        ["/usr/sbin/sendmail", to_email],
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE
-    )
-    stdout, stderr = process.communicate(input=message.encode())
+    try:
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login(from_email, password)
+        server.sendmail(from_email, to_email, msg.as_string())
+        server.quit()
 
-    if process.returncode == 0:
         print(f"E-mail enviado com sucesso para {to_email}")
-    else:
-        print(f"Falha ao enviar e-mail: {stderr.decode()}")
+    except Exception as e:
+        print(f"Falha ao enviar e-mail: {str(e)}")
 
 if __name__ == "__main__":
     commit_author_email = os.getenv('COMMIT_AUTHOR_EMAIL')

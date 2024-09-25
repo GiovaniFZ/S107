@@ -2,9 +2,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main", "test" ]  # Adicionando a branch test
+    branches: [ "main", "test" ]
   pull_request:
-    branches: [ "main", "test" ]   # Também adicionando para pull requests
+    branches: [ "main", "test" ]
 
 jobs:
   test:
@@ -25,7 +25,7 @@ jobs:
           mvn package
 
       - name: Generate Site with Maven
-        run: mvn site  # Gera o site
+        run: mvn site
 
       - name: Upload Artefatos
         uses: actions/upload-artifact@v4
@@ -52,16 +52,10 @@ jobs:
         id: get_email
         run: echo "COMMIT_AUTHOR_EMAIL=$(git log -1 --pretty=format:'%ae')" >> $GITHUB_ENV
 
-      - name: Install Sendmail
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y sendmail
-
-      - name: Check Sendmail Status
-        run: sendmail -bv your-email@example.com  # Verifica se o sendmail está funcionando corretamente
-
       - name: Send Email Notification
         run: |
           python scripts/send_email.py
         env:
           COMMIT_AUTHOR_EMAIL: ${{ env.COMMIT_AUTHOR_EMAIL }}
+          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}         # Endereço de e-mail do remetente
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}   # Senha do e-mail
