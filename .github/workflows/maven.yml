@@ -14,7 +14,6 @@ on:
   pull_request:
     branches: [ "main", "test" ]   # Também adicionando para pull requests
 
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -27,12 +26,15 @@ jobs:
           java-version: '22'
           distribution: 'temurin'
           cache: maven
-      - name: Tests with Maven
+      - name: Run Tests with Maven
         run: |
           mvn clean install
           mvn clean test
 
-      - name: Upload artefatos
+      - name: Generate Site with Maven
+        run: mvn site  # Gera o site
+
+      - name: Upload Artefatos
         uses: actions/upload-artifact@v3
         with:
           name: relatorio-testes
