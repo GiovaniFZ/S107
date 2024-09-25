@@ -30,6 +30,7 @@ jobs:
         run: |
           mvn clean install
           mvn clean test
+          mvn package
 
       - name: Generate Site with Maven
         run: mvn site  # Gera o site
@@ -39,6 +40,12 @@ jobs:
         with:
           name: relatorio-testes
           path: ./target/site/
+
+      - name: Upload Package
+        uses: actions/upload-artifact@v4
+        with:
+          name: pacote
+          path: ./target/*.jar
 
   notification:
     needs: test
