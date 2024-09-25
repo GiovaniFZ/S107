@@ -31,3 +31,18 @@ jobs:
       run: |
         mvn clean install
         mvn clean test
+
+    - name: Upload artefatos
+      uses: action/upload-artifact@v3
+      with:
+        name: relatorio-testes
+        path: ./target/site/
+
+  notification:
+    needs: build
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Executa scripts externos (versionados)
+        uses: actions/checkout@v4
+      - run: sh scripts/send_email.py
