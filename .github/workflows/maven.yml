@@ -35,7 +35,7 @@ jobs:
         run: mvn site  # Gera o site
 
       - name: Upload Artefatos
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: relatorio-testes
           path: ./target/site/
