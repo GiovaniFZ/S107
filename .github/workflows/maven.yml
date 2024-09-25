@@ -57,6 +57,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y sendmail
+          sendmail -v  # Verifica a instalação do sendmail
 
       - name: Send Email Notification on Failure
         run: |
@@ -77,9 +78,14 @@ jobs:
         id: get_email
         run: echo "COMMIT_AUTHOR_EMAIL=$(git log -1 --pretty=format:'%ae')" >> $GITHUB_ENV
 
+      - name: Install Sendmail
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y sendmail
+          sendmail -v  # Verifica a instalação do sendmail
+
       - name: Send Success Notification
         run: |
           python scripts/send_email.py
         env:
           COMMIT_AUTHOR_EMAIL: ${{ env.COMMIT_AUTHOR_EMAIL }}
-
