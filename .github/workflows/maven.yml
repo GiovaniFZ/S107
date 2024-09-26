@@ -57,5 +57,5 @@ jobs:
           python scripts/send_email.py
         env:
           COMMIT_AUTHOR_EMAIL: ${{ env.COMMIT_AUTHOR_EMAIL }}
-          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}         # Endereço de e-mail do remetente
-          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}   # Senha do e-mail
+          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
