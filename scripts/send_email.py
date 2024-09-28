@@ -6,8 +6,8 @@ from email.mime.multipart import MIMEMultipart
 def send_email(to_email):
     subject = "Pipeline Executado"
     body = "Pipeline executado com sucesso"
-    from_email = os.getenv('FROM_EMAIL')
-    password = os.getenv('EMAIL_PASSWORD')
+    from_email = os.getenv('FROM_EMAIL', '').replace('\xa0', '').strip()
+    password = os.getenv('EMAIL_PASSWORD', '').replace('\xa0', '').strip()
 
     msg = MIMEMultipart()
     msg['From'] = from_email
