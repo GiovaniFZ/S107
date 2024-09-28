@@ -5,7 +5,7 @@ from email.mime.multipart import MIMEMultipart
 
 def send_email(to_email):
     subject = "Pipeline Executado"
-    body = "Pipeline executado com sucesso!"
+    body = "Pipeline executado com sucesso"
     from_email = os.getenv('FROM_EMAIL')
     password = os.getenv('EMAIL_PASSWORD')
 
@@ -30,6 +30,11 @@ def send_email(to_email):
 
 if __name__ == "__main__":
     commit_author_email = os.getenv('COMMIT_AUTHOR_EMAIL')
-    print(f"Commit Author Email: {commit_author_email}")  # Verifica o valor do e-mail
+    
+    # Remover espaços não separáveis e outros caracteres não ASCII
+    commit_author_email = commit_author_email.replace('\xa0', ' ').strip()
+
+    print(f"Commit Author Email (sanitizado): {commit_author_email}")
     send_email(commit_author_email)
+
 
