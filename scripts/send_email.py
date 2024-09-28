@@ -13,7 +13,9 @@ def send_email(to_email):
     msg['From'] = from_email
     msg['To'] = to_email
     msg['Subject'] = subject
-    msg.attach(MIMEText(body, 'plain'))
+
+    # Alterar para 'utf-8' ao invés de 'plain'
+    msg.attach(MIMEText(body, 'plain', 'utf-8'))
 
     try:
         server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -28,4 +30,6 @@ def send_email(to_email):
 
 if __name__ == "__main__":
     commit_author_email = os.getenv('COMMIT_AUTHOR_EMAIL')
+    print(f"Commit Author Email: {commit_author_email}")  # Verifica o valor do e-mail
     send_email(commit_author_email)
+

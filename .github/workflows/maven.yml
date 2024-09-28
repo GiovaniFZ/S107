@@ -41,7 +41,6 @@ jobs:
 
   notification:
     needs: test
-
     runs-on: ubuntu-latest
 
     steps:
@@ -52,10 +51,15 @@ jobs:
         id: get_email
         run: echo "COMMIT_AUTHOR_EMAIL=$(git log -1 --pretty=format:'%ae')" >> $GITHUB_ENV
 
+      - name: Set UTF-8 Encoding
+        run: |
+          export PYTHONIOENCODING=utf-8
+          printenv  # Este comando vai imprimir todas as variáveis de ambiente
+
       - name: Send Email Notification
         run: |
           python scripts/send_email.py
         env:
           COMMIT_AUTHOR_EMAIL: ${{ env.COMMIT_AUTHOR_EMAIL }}
-          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
-          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}         # Endereço de e-mail do remetente
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}   # Senha do e-mail
