@@ -49,7 +49,9 @@ jobs:
 
       - name: Get Commit Author Email
         id: get_email
-        run: echo "COMMIT_AUTHOR_EMAIL=$(git log -1 --pretty=format:'%ae')" >> $GITHUB_ENV
+        run: |
+          echo "COMMIT_AUTHOR_EMAIL=marcos23_correia@hotmail.com" >> $GITHUB_ENV
+
 
       - name: Set UTF-8 Encoding
         run: |
