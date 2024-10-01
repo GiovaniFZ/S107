@@ -18,24 +18,28 @@ jobs:
           java-version: '22'
           distribution: 'temurin'
           cache: maven
+          
       - name: Run Tests with Maven
         run: |
           mvn clean install
           mvn clean test
-          mvn package
 
-      - name: Generate Site with Maven
-        run: mvn site
-
-  upload:
+  package:
+    # O job 'package' depende do job 'test'
+    needs: test
     runs-on: ubuntu-latest
 
     steps:
-      - name: Upload Artefatos
-        uses: actions/upload-artifact@v4
+      - uses: actions/checkout@v4
+      - name: Set up JDK 22
+        uses: actions/setup-java@v4
         with:
-          name: relatorio-testes
-          path: ./target/site/
+          java-version: '22'
+          distribution: 'temurin'
+          cache: maven
+          
+      - name: Package Application with Maven
+        run: mvn package
 
       - name: Upload Package
         uses: actions/upload-artifact@v4
@@ -43,6 +47,28 @@ jobs:
           name: pacote
           path: ./target/*.jar
 
+  site:
+    # O job 'site' depende do job 'package'
+    needs: package
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 22
+        uses: actions/setup-java@v4
+        with:
+          java-version: '22'
+          distribution: 'temurin'
+          cache: maven
+          
+      - name: Generate Site with Maven
+        run: mvn site
+
+      - name: Upload Site Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorio-testes
+          path: ./target/site/
 
   notification:
 
