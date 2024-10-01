@@ -48,8 +48,6 @@ jobs:
           path: ./target/*.jar
 
   site:
-    # O job 'site' depende do job 'package'
-    needs: package
     runs-on: ubuntu-latest
 
     steps:
@@ -72,8 +70,10 @@ jobs:
 
   notification:
 
-    needs: test
-    
+    needs: 
+      - test
+      - package
+      - site
     runs-on: ubuntu-latest
 
     steps:
