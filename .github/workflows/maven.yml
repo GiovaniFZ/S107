@@ -27,6 +27,10 @@ jobs:
       - name: Generate Site with Maven
         run: mvn site
 
+  upload:
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Upload Artefatos
         uses: actions/upload-artifact@v4
         with:
@@ -39,8 +43,8 @@ jobs:
           name: pacote
           path: ./target/*.jar
 
+
   notification:
-    needs: test
     runs-on: ubuntu-latest
 
     steps:
