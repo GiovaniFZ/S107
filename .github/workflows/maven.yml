@@ -45,6 +45,9 @@ jobs:
 
 
   notification:
+
+    needs: test
+    
     runs-on: ubuntu-latest
 
     steps:
